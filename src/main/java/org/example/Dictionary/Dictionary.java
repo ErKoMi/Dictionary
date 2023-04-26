@@ -4,11 +4,14 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.IllegalFormatException;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public abstract class Dictionary {
     HashMap<String, String> dictionary;
     protected int keyIndex;
     protected static final String splitter = "-";
+    protected Pattern keyPattern;
+    protected Pattern valuePattern;
     public Dictionary(){
         dictionary = new HashMap<>();
         keyIndex = 0;
@@ -63,6 +66,10 @@ public abstract class Dictionary {
         return dictionary.get(key);
     }
 
-    protected abstract boolean checkKey(String key);
-    protected abstract boolean checkValue(String value);
+    protected boolean checkKey(String key){
+        return keyPattern.matcher(key).matches();
+    }
+    protected boolean checkValue(String value){
+        return valuePattern.matcher(value).matches();
+    }
 }
