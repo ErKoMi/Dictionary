@@ -4,17 +4,13 @@ public class MenuItem {
     String title;
     onSelectedMenuItemListener listener;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void select(){
+    public void execute(){
         listener.onSelectedMenuItem();
     }
 
     @Override
     public String toString() {
-        return getTitle();
+        return title;
     }
 
     public interface onSelectedMenuItemListener{
