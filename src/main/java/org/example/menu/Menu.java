@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Menu {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
 
     Scanner in;
@@ -31,7 +32,7 @@ public class Menu {
         while (run){
             show();
 
-            String command = in.nextLine();
+            String command = in.nextLine().trim();
             execute(command);
         }
     }
@@ -46,12 +47,10 @@ public class Menu {
     }
 
     void execute(String command){
-        try {
-            MenuItem item = items.get(command);
+        MenuItem item = items.get(command);
+        if(item != null)
             item.execute();
-        }
-        catch (IndexOutOfBoundsException e) {
-            System.out.println("Illegal menus item index!");
-        }
+        else
+            System.out.println(ANSI_RED + "Illegal command!" + ANSI_RESET);
     }
 }

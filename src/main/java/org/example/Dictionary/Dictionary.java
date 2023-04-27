@@ -30,7 +30,12 @@ public abstract class Dictionary {
                     throw new IOException("Illegal row!");
                 }
 
-                add(pair[keyIndex], pair[1 - keyIndex]);
+                try {
+                    add(pair[keyIndex], pair[1 - keyIndex]);
+                }
+                catch (IllegalArgumentException e){
+                    throw new IOException(e.getMessage());
+                }
             }
         }
     }

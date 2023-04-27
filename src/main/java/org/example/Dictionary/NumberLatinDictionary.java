@@ -8,7 +8,7 @@ public class NumberLatinDictionary extends Dictionary {
     public NumberLatinDictionary(){
         super();
         keyIndex = 0;
-        valuePattern = Pattern.compile("^\\d{5}$");
-        keyPattern = Pattern.compile("^[a-z]{4}$");
+        keyPattern = Pattern.compile("^\\d{5}$");
+        valuePattern = Pattern.compile("^[a-z]{4}$");
     }
 }

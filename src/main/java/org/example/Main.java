@@ -55,9 +55,16 @@ public class Main {
             String[] pair = in.nextLine().split(" ");
             if(pair.length != 2){
                 out.println("Неверный формат ввода!");
+                return;
             }
 
-            dictionary.add(pair[0], pair[1]);
+            try {
+                dictionary.add(pair[0], pair[1]);
+            }
+            catch (Exception e){
+                out.println(e.getMessage());
+            }
+            saveDictionary();
         },
         () -> dictionary != null));
 
@@ -69,6 +76,16 @@ public class Main {
             dictionary.loadFromFile(filePath);
         } catch (IOException e) {
             out.println("Не удалось загрузить словарь!");
+        }
+    }
+
+    private static void saveDictionary(){
+        if(dictionary != null){
+            try {
+                dictionary.saveToFile(filePath);
+            } catch (IOException e) {
+                out.println("Не удалось сохранить словарь!");
+            }
         }
     }
 }
