@@ -2,10 +2,20 @@ package org.example.menu;
 
 public class MenuItem {
     String title;
-    onSelectedMenuItemListener listener;
+    onExecuteMenuItemListener listener;
+    onCanExecuteMenuItemListener canExecuteListener;
 
-    public void execute(){
-        listener.onSelectedMenuItem();
+    public void execute() {
+        if(canExecuteListener != null && listener != null && canExecuteListener.onCanExecute())
+            listener.onExecuteMenuItem();
+    }
+
+    public boolean canExecute(){
+        if(canExecuteListener != null){
+            return canExecuteListener.onCanExecute();
+        }
+
+        return false;
     }
 
     @Override
@@ -13,12 +23,17 @@ public class MenuItem {
         return title;
     }
 
-    public interface onSelectedMenuItemListener{
-        public void onSelectedMenuItem();
+    public interface onExecuteMenuItemListener {
+        void onExecuteMenuItem();
     }
 
-    public MenuItem(String title, onSelectedMenuItemListener listener){
+    public interface onCanExecuteMenuItemListener {
+        boolean onCanExecute();
+    }
+
+    public MenuItem(String title, onExecuteMenuItemListener listener, onCanExecuteMenuItemListener canExecuteListener){
         this.listener = listener;
+        this.canExecuteListener = canExecuteListener;
         this.title = title;
     }
 }
