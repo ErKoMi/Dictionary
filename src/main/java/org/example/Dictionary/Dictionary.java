@@ -49,7 +49,7 @@ public abstract class Dictionary {
         try(FileWriter writer = new FileWriter(file)){
             String string;
             for (Map.Entry<String, String> entry: dictionary.entrySet()){
-                string = keyIndex == 0? entry.getKey() + splitter + entry.getValue():entry.getValue() + splitter + entry.getKey();
+                string = keyIndex == 0? entry.getKey() + splitter + entry.getValue():entry.getValue() + splitter + entry.getKey() + System.lineSeparator();
                 writer.write(string);
             }
         }
