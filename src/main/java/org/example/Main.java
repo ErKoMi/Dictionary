@@ -8,7 +8,6 @@ import org.example.menu.MenuItem;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.Scanner;
 
@@ -16,32 +15,37 @@ import static java.lang.System.out;
 
 public class Main {
     static Dictionary dictionary;
-    static final String fileName = "dictionary.txt";
+    static String fileName = "";
     static String filePath;
     static final Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
         Menu menu = new Menu();
-        filePath = Path.of(fileName).toAbsolutePath().toString();
-        File file = new File(filePath);
 
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            out.println("Не удалось создать файл для словаря!");
-        }
+        menu.addItem("path", new MenuItem("Введите относительный путь к словарю", () -> {
+            fileName = in.nextLine();
+            filePath = Path.of(fileName).toAbsolutePath().toString();
+            File file = new File(filePath);
+
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                out.println("Не удалось создать файл для словаря!");
+            }
+        },
+        () -> fileName.equals("")));
 
         menu.addItem("num", new MenuItem("Выбрать словарь, где ключ - цифры", () ->{
             dictionary = new NumberLatinDictionary();
             loadDictionary();
         },
-        () -> true));
+        () -> !fileName.equals("")));
 
         menu.addItem("latin", new MenuItem("Выбрать словарь, где ключ - латинские символы", () ->{
             dictionary = new LatinNumberDictionary();
             loadDictionary();
         },
-        () -> true));
+        () -> !fileName.equals("")));
 
         menu.addItem("show", new MenuItem("Искать по ключу.", () -> {
             String key = in.nextLine();
@@ -67,6 +71,16 @@ public class Main {
             saveDictionary();
         },
         () -> dictionary != null));
+
+        menu.addItem("q", new MenuItem("Выход", () ->{
+            if(fileName.equals(""))
+                menu.exit();
+            else{
+                fileName = "";
+                dictionary = null;
+            }
+        },
+        () -> true));
 
         menu.start();
     }

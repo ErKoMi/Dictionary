@@ -16,12 +16,7 @@ public class Menu {
 
     public Menu(){
         items = new HashMap<>();
-        items.put("q", new MenuItem("Выход", () ->{
-            run = false;
-        },
-        () -> true));
         in = new Scanner(System.in);
-        run = true;
     }
 
     public void addItem(String command, MenuItem item){
@@ -29,6 +24,7 @@ public class Menu {
     }
 
     public void start(){
+        run  = true;
         while (run){
             show();
 
@@ -37,7 +33,11 @@ public class Menu {
         }
     }
 
-    void show(){
+    public void exit(){
+        run = false;
+    }
+
+    void show() {
         System.out.println(ANSI_YELLOW + "-------------------------------------------------" + ANSI_RESET);
         for (Map.Entry item : items.entrySet().stream().sorted(Map.Entry.comparingByKey()).toList()) {
             if(((MenuItem)item.getValue()).canExecute())
